@@ -4,5 +4,6 @@ import { Module } from '@nestjs/common'
 
 @Module({
   providers: [UsersResolver, UsersService],
+  exports: [UsersService],
 })
 export class UsersModule {}

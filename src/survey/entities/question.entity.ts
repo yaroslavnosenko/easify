@@ -1,20 +1,11 @@
+import { BasicEntity } from '@/database/basic.entity'
 import { Answer } from '@/survey/entities/answer.entity'
 import { Field, ObjectType } from '@nestjs/graphql'
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm'
+import { Column, Entity, OneToMany } from 'typeorm'
 
 @Entity()
 @ObjectType()
-export class Question extends BaseEntity {
-  @Field(() => String)
-  @PrimaryGeneratedColumn('uuid')
-  id: string
-
+export class Question extends BasicEntity {
   @Field(() => String)
   @Column()
   name: string

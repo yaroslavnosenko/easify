@@ -1,12 +1,7 @@
+import { BasicEntity } from '@/database/basic.entity'
 import { Place } from '@/places/entities/place.entity'
-import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql'
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm'
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
+import { Column, Entity, OneToMany } from 'typeorm'
 
 export enum UserType {
   user = 'user',
@@ -20,11 +15,7 @@ registerEnumType(UserType, {
 
 @Entity()
 @ObjectType()
-export class User extends BaseEntity {
-  @Field(() => ID)
-  @PrimaryGeneratedColumn('uuid')
-  id: string
-
+export class User extends BasicEntity {
   @Field(() => UserType)
   @Column({ enum: UserType })
   type: UserType

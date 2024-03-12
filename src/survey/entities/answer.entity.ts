@@ -1,27 +1,20 @@
+import { BasicEntity } from '@/database/basic.entity'
 import { Place } from '@/places/entities/place.entity'
 import { Question } from '@/survey/entities/question.entity'
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql'
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm'
+import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Column, Entity, ManyToOne } from 'typeorm'
 
 @Entity()
 @ObjectType()
-export class Answer extends BaseEntity {
-  @Field(() => ID)
-  @PrimaryGeneratedColumn('uuid')
-  id: string
-
+export class Answer extends BasicEntity {
   @Field(() => Place)
-  @ManyToOne(() => Place, (place) => place.answers)
+  @ManyToOne(() => Place, (place) => place.answers, { nullable: false })
   place: Place
 
   @Field(() => Question)
-  @ManyToOne(() => Question, (question) => question.answers)
+  @ManyToOne(() => Question, (question) => question.answers, {
+    nullable: false,
+  })
   question: Question
 
   @Field(() => Int)

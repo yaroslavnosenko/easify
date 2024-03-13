@@ -1,3 +1,4 @@
+import { LocationInput } from '@/places/dto/location.input'
 import { PlaceInput } from '@/places/dto/place.input'
 import { Place } from '@/places/entities/place.entity'
 import { User } from '@/users/entities/user.entity'
@@ -13,6 +14,11 @@ export class PlacesService {
     return Place.findOneBy({ id })
   }
 
+  findAllByLocation(input: LocationInput): Promise<Place[]> {
+    console.log(input)
+    return Place.find()
+  }
+
   async create(userId: string, input: PlaceInput): Promise<Place> {
     const user = await User.findOneBy({ id: userId })
     const place = Place.create({ ...input })
@@ -20,7 +26,7 @@ export class PlacesService {
     return place.save()
   }
 
-  async update(id: string, input: PlaceInput) {
+  async update(id: string, input: PlaceInput): Promise<Place> {
     const place = await Place.findOneBy({ id })
     return Place.create({ ...place, ...input }).save()
   }

@@ -1,3 +1,4 @@
+import { LocationInput } from '@/places/dto/location.input'
 import { PlaceInput } from '@/places/dto/place.input'
 import { Place } from '@/places/entities/place.entity'
 import { PlacesService } from '@/places/places.service'
@@ -10,6 +11,11 @@ export class PlacesResolver {
   @Query(() => [Place])
   places() {
     return this.placesService.findAll()
+  }
+
+  @Query(() => [Place])
+  placesByLocation(@Args('input') input: LocationInput) {
+    return this.placesService.findAllByLocation(input)
   }
 
   @Query(() => Place)

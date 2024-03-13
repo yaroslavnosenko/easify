@@ -16,6 +16,10 @@ import { GraphQLModule } from '@nestjs/graphql'
       driver: ApolloDriver,
       playground: process.env.NODE_ENV !== 'production',
       autoSchemaFile: true,
+      formatError: (err) => ({
+        message: err.message,
+        status: err.extensions.code,
+      }),
     }),
     DatabaseModule,
     AuthModule,

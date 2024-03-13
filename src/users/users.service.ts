@@ -1,9 +1,12 @@
 import { UserInput } from '@/users/dto/user.input'
 import { User, UserRole } from '@/users/entities/user.entity'
 import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class UsersService {
+  constructor(private configService: ConfigService) {}
+
   findAll(): Promise<User[]> {
     return User.find()
   }
@@ -17,6 +20,9 @@ export class UsersService {
   }
 
   create({ email, firstName, lastName, role = UserRole.user }): Promise<User> {
+    if (this.configService.getOrThrow('admin.email') === email) {
+      role = UserRole.admin
+    }
     return User.create({ email, firstName, lastName, role }).save()
   }
 

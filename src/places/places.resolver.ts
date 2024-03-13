@@ -1,10 +1,18 @@
 import { Roles } from '@/auth/roles.decorator'
-import { LocationInput } from '@/places/dto/location.input'
+import { Location, LocationInput } from '@/places/dto/location.type'
 import { PlaceInput } from '@/places/dto/place.input'
 import { Place } from '@/places/entities/place.entity'
 import { PlacesService } from '@/places/places.service'
 import { UserRole } from '@/users/entities/user.entity'
-import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql'
+import {
+  Args,
+  ID,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql'
 
 @Resolver(() => Place)
 export class PlacesResolver {
@@ -40,5 +48,14 @@ export class PlacesResolver {
     @Args('input') input: PlaceInput
   ) {
     return this.placesService.update(id, input)
+  }
+
+  @ResolveField(() => Location)
+  location(@Parent() place: Place): Location {
+    const {
+      location: { coordinates },
+    } = place
+    const [lat, lng] = coordinates
+    return { lat, lng }
   }
 }

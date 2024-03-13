@@ -1,4 +1,5 @@
 import { BasicEntity } from '@/database/basic.entity'
+import { Location } from '@/places/dto/location.type'
 import { Answer } from '@/survey/entities/answer.entity'
 import { User } from '@/users/entities/user.entity'
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
@@ -22,6 +23,7 @@ export class Place extends BasicEntity {
   @Column()
   name: string
 
+  @Field(() => Location)
   @Column('geometry')
   location: Point
 

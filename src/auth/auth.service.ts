@@ -18,7 +18,7 @@ export class AuthService {
     if (!user) {
       user = await this.usersService.create(googleUser)
     }
-    const payload = { sub: user.id, typ: user.type }
+    const payload = { sub: user.id, typ: user.role }
     const token = await this.jwtService.signAsync(payload)
     return { token, user }
   }

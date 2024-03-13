@@ -3,22 +3,22 @@ import { Place } from '@/places/entities/place.entity'
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { Column, Entity, OneToMany } from 'typeorm'
 
-export enum UserType {
+export enum UserRole {
   user = 'user',
   admin = 'admin',
   moderator = 'moderator',
 }
 
-registerEnumType(UserType, {
-  name: 'UserType',
+registerEnumType(UserRole, {
+  name: 'UserRole',
 })
 
 @Entity()
 @ObjectType()
 export class User extends BasicEntity {
-  @Field(() => UserType)
-  @Column({ enum: UserType })
-  type: UserType
+  @Field(() => UserRole)
+  @Column({ enum: UserRole })
+  role: UserRole
 
   @Field(() => String)
   @Column()

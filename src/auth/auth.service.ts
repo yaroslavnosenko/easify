@@ -20,7 +20,7 @@ export class AuthService {
     }
     const payload = { sid: user.id }
     const appToken = await this.jwtService.signAsync(payload)
-    return { token: appToken, user }
+    return { token: appToken }
   }
 
   private async getUserByGoogleToken(token: string) {

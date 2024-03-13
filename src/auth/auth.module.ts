@@ -1,3 +1,4 @@
+import { AuthGuard } from '@/auth/auth.guard'
 import { AuthResolver } from '@/auth/auth.resolver'
 import { AuthService } from '@/auth/auth.service'
 import { UsersModule } from '@/users/users.module'
@@ -5,7 +6,6 @@ import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { APP_GUARD } from '@nestjs/core'
 import { JwtModule } from '@nestjs/jwt'
-import { RolesGuard } from './roles.guard'
 
 @Module({
   imports: [
@@ -25,7 +25,7 @@ import { RolesGuard } from './roles.guard'
     AuthService,
     {
       provide: APP_GUARD,
-      useClass: RolesGuard,
+      useClass: AuthGuard,
     },
   ],
 })

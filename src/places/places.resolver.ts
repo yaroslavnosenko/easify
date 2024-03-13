@@ -1,9 +1,11 @@
+import { Me } from '@/auth/me.decorator'
 import { Roles } from '@/auth/roles.decorator'
 import { Location, LocationInput } from '@/places/dto/location.type'
 import { PlaceInput } from '@/places/dto/place.input'
 import { Place } from '@/places/entities/place.entity'
 import { PlacesService } from '@/places/places.service'
-import { UserRole } from '@/users/entities/user.entity'
+import { User, UserRole } from '@/users/entities/user.entity'
+import { ForbiddenError } from '@nestjs/apollo'
 import {
   Args,
   ID,
@@ -57,5 +59,13 @@ export class PlacesResolver {
     } = place
     const [lat, lng] = coordinates
     return { lat, lng }
+  }
+
+  @ResolveField(() => User)
+  async owner(@Me() me: User, @Parent() place: Place): Promise<User> {
+    if (![UserRole.admin, UserRole.moderator].includes(me.role)) {
+      throw new ForbiddenError('Forbidden resource')
+    }
+    return place.owner
   }
 }

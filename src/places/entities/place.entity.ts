@@ -35,7 +35,7 @@ export class Place extends BasicEntity {
   @Column({ enum: PlaceType })
   type: PlaceType
 
-  @Field(() => User)
+  @Field(() => User, { description: 'For Admin and Moderator only' })
   @ManyToOne(() => User, (user) => user.places, { nullable: false })
   owner: Promise<User>
 

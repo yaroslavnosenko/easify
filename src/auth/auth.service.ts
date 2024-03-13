@@ -1,4 +1,4 @@
-import { TokenInput } from '@/auth/dto/token.input'
+import { AuthInput } from '@/auth/dto/auth.input'
 import { Auth } from '@/auth/entities/auth.entity'
 import { UsersService } from '@/users/users.service'
 import { Injectable } from '@nestjs/common'
@@ -11,16 +11,16 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  async auth(input: TokenInput): Promise<Auth> {
-    const { googleToken } = input
-    const googleUser = await this.getUserByGoogleToken(googleToken)
+  async auth(input: AuthInput): Promise<Auth> {
+    const { token } = input
+    const googleUser = await this.getUserByGoogleToken(token)
     let user = await this.usersService.findOneByEmail(googleUser.email)
     if (!user) {
       user = await this.usersService.create(googleUser)
     }
     const payload = { sub: user.id, typ: user.role }
-    const token = await this.jwtService.signAsync(payload)
-    return { token, user }
+    const appToken = await this.jwtService.signAsync(payload)
+    return { token: appToken, user }
   }
 
   private async getUserByGoogleToken(token: string) {

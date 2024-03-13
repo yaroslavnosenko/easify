@@ -8,7 +8,7 @@ import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql'
 export class PlacesResolver {
   constructor(private readonly placesService: PlacesService) {}
 
-  @Query(() => [Place])
+  @Query(() => [Place], { description: 'For Admin and Moderator only' })
   places() {
     return this.placesService.findAll()
   }
@@ -18,7 +18,7 @@ export class PlacesResolver {
     return this.placesService.findAllByLocation(input)
   }
 
-  @Query(() => Place)
+  @Query(() => Place, { description: 'For Admin and Moderator only' })
   place(@Args('id', { type: () => ID }) id: string) {
     return this.placesService.findOne(id)
   }

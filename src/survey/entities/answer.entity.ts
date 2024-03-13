@@ -7,7 +7,6 @@ import { Column, Entity, ManyToOne } from 'typeorm'
 @Entity()
 @ObjectType()
 export class Answer extends BasicEntity {
-  @Field(() => Place)
   @ManyToOne(() => Place, (place) => place.answers, { nullable: false })
   place: Place
 

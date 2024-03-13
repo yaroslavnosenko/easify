@@ -12,12 +12,12 @@ export class SurveyResolver {
     return this.surveyService.findAll()
   }
 
-  @Mutation(() => Question)
+  @Mutation(() => Question, { description: 'For Admin only' })
   createQuestion(@Args('input') input: QuestionInput) {
     return this.surveyService.createQuestion(input)
   }
 
-  @Mutation(() => Question)
+  @Mutation(() => Question, { description: 'For Admin only' })
   updateQuestion(
     @Args('id', { type: () => ID }) id: string,
     @Args('input') input: QuestionInput

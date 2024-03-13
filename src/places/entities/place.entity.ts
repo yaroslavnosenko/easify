@@ -35,7 +35,11 @@ export class Place extends BasicEntity {
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.places, { nullable: false })
-  user: User
+  owner: User
+
+  @Field(() => User, { nullable: true })
+  @ManyToOne(() => User)
+  verifiedBy: User
 
   @Field(() => [Answer])
   @OneToMany(() => Answer, (answer) => answer.question)

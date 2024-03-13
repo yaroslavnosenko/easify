@@ -33,6 +33,6 @@ export class User extends BasicEntity {
   lastName: string
 
   @Field(() => [Place])
-  @OneToMany(() => Place, (place) => place.user)
+  @OneToMany(() => Place, (place) => place.owner)
   places: Place[]
 }

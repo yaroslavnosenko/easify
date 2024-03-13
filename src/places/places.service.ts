@@ -16,7 +16,7 @@ export class PlacesService {
   async create(userId: string, input: PlaceInput): Promise<Place> {
     const user = await User.findOneBy({ id: userId })
     const place = Place.create({ ...input })
-    place.user = user
+    place.owner = user
     return place.save()
   }
 

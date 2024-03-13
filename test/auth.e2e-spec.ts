@@ -2,7 +2,7 @@ import { AppModule } from '@/app.module'
 import { INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { jsonToGraphQLQuery as gqlFromJson } from 'json-to-graphql-query'
-import { request } from './utils'
+import { graphql } from './utils'
 
 describe('Auth', () => {
   let app: INestApplication
@@ -32,7 +32,7 @@ describe('Auth', () => {
         },
       },
     })
-    return request(app, mutation)
+    return graphql(app, mutation)
       .expect(200)
       .expect((res) => {
         const data = res.body.data.auth

@@ -11,5 +11,5 @@ export class Question extends BasicEntity {
   name: string
 
   @OneToMany(() => Answer, (answer) => answer.question)
-  answers: Answer[]
+  answers: Promise<Answer[]>
 }

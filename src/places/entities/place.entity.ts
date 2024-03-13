@@ -35,19 +35,15 @@ export class Place extends BasicEntity {
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.places, { nullable: false })
-  owner: User
+  owner: Promise<User>
 
   @Field(() => [Answer])
   @OneToMany(() => Answer, (answer) => answer.question)
-  answers: Answer[]
+  answers: Promise<Answer[]>
 
   @Field(() => Boolean)
   isVerified: boolean
 
-  @Field(() => User, {
-    nullable: true,
-    description: 'For Admin and Moderator only',
-  })
   @ManyToOne(() => User)
-  verifiedBy: User
+  verifiedBy: Promise<User>
 }

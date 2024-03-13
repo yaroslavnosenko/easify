@@ -8,15 +8,19 @@ import { Column, Entity, ManyToOne } from 'typeorm'
 @ObjectType()
 export class Answer extends BasicEntity {
   @ManyToOne(() => Place, (place) => place.answers, { nullable: false })
-  place: Place
+  place: Promise<Place>
 
   @Field(() => Question)
   @ManyToOne(() => Question, (question) => question.answers, {
     nullable: false,
   })
-  question: Question
+  question: Promise<Question>
 
   @Field(() => Int)
-  @Column()
+  @Column({ type: 'int', default: 0 })
   points: number
+
+  @Field(() => Int)
+  @Column({ type: 'int', default: 0 })
+  pendingPoints: number
 }

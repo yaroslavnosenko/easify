@@ -24,6 +24,7 @@ export class AuthService {
   }
 
   private async getUserByGoogleToken(token: string) {
+    // Todo Google Auth
     return { email: token + '@mail.com', firstName: token, lastName: token }
   }
 }

@@ -34,5 +34,5 @@ export class User extends BasicEntity {
 
   @Field(() => [Place])
   @OneToMany(() => Place, (place) => place.owner)
-  places: Place[]
+  places: Promise<Place[]>
 }

@@ -21,7 +21,7 @@ export class PlacesResolver {
     return this.placesService.findAllByLocation(input)
   }
 
-  @Query(() => Place, { description: 'For Admin and Moderator only' })
+  @Query(() => Place)
   place(@Args('id', { type: () => ID }) id: string) {
     return this.placesService.findOne(id)
   }

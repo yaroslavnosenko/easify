@@ -57,6 +57,11 @@ export class UsersResolver {
     return this.usersService.changeRole(id, role)
   }
 
+  @Mutation(() => Boolean)
+  deleteUser(@Args('id', { type: () => ID }) id: string) {
+    return
+  }
+
   @ResolveField(() => [Place])
   places(@Parent() user: User) {
     return user.places

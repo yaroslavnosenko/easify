@@ -67,6 +67,11 @@ export class PlacesResolver {
     return this.placesService.update(id, input)
   }
 
+  @Mutation(() => Boolean)
+  deletePlace(@Args('id', { type: () => ID }) id: string) {
+    return
+  }
+
   @ResolveField(() => Location)
   location(@Parent() place: Place): Location {
     const {

@@ -10,7 +10,7 @@ export class PlacesService {
     return Place.find()
   }
 
-  findOne(id: string): Promise<Place> {
+  findOne(id: string): Promise<Place | null> {
     return Place.findOneBy({ id })
   }
 
@@ -19,8 +19,8 @@ export class PlacesService {
     return Place.find()
   }
 
-  async create(userId: string, input: PlaceInput): Promise<Place> {
-    const user = await User.findOneBy({ id: userId })
+  async create(userId: string, input: PlaceInput): Promise<string> {
+    const user = await User.findOneByOrFail({ id: userId })
     const {
       location: { lat, lng },
       ...other
@@ -30,19 +30,21 @@ export class PlacesService {
       location: { type: 'Point', coordinates: [lat, lng] },
     })
     place.owner = Promise.resolve(user)
-    return place.save()
+    const { id } = await place.save()
+    return id
   }
 
-  async update(id: string, input: PlaceInput): Promise<Place> {
+  async update(id: string, input: PlaceInput): Promise<string> {
     const place = await Place.findOneBy({ id })
     const {
       location: { lat, lng },
       ...other
     } = input
-    return Place.create({
+    await Place.create({
       ...place,
       ...other,
       location: { type: 'Point', coordinates: [lat, lng] },
     }).save()
+    return id
   }
 }

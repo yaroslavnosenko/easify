@@ -22,33 +22,48 @@ export class PlacesResolver {
 
   @Query(() => [Place], { description: 'For Admin and Moderator only' })
   @Roles(UserRole.admin, UserRole.moderator)
-  places() {
+  places(): Promise<Place[]> {
     return this.placesService.findAll()
   }
 
   @Query(() => [Place])
-  placesByLocation(@Args('input') input: LocationInput) {
+  placesByLocation(@Args('input') input: LocationInput): Promise<Place[]> {
     return this.placesService.findAllByLocation(input)
   }
 
-  @Query(() => Place)
-  place(@Args('id', { type: () => ID }) id: string) {
+  @Query(() => Place, { nullable: true })
+  place(@Args('id', { type: () => ID }) id: string): Promise<Place | null> {
     return this.placesService.findOne(id)
   }
 
-  @Mutation(() => Place)
+  @Mutation(() => ID)
+  @Roles(UserRole.admin, UserRole.moderator, UserRole.user)
   createPlace(
     @Args('userId', { type: () => ID }) userId: string,
-    @Args('input') input: PlaceInput
-  ) {
+    @Args('input') input: PlaceInput,
+    @Me() me: User
+  ): Promise<string> {
+    if (me.role === UserRole.user && userId !== me.id) {
+      throw new ForbiddenError('Forbidden resource')
+    }
     return this.placesService.create(userId, input)
   }
 
-  @Mutation(() => Place)
-  updatePlace(
+  @Mutation(() => ID)
+  @Roles(UserRole.admin, UserRole.moderator, UserRole.user)
+  async updatePlace(
     @Args('id', { type: () => ID }) id: string,
-    @Args('input') input: PlaceInput
-  ) {
+    @Args('input') input: PlaceInput,
+    @Me() me: User
+  ): Promise<string> {
+    const place = await this.placesService.findOne(id)
+    if (!place) {
+      throw new ForbiddenError('Forbidden resource')
+    }
+    const owner = await place.owner
+    if (me.role === UserRole.user && owner.id !== me.id) {
+      throw new ForbiddenError('Forbidden resource')
+    }
     return this.placesService.update(id, input)
   }
 

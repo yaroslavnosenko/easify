@@ -30,4 +30,11 @@ export class UsersService {
     const user = await User.findOneBy({ id })
     return User.create({ ...user, ...input }).save()
   }
+
+  async changeRole(id: string, role: UserRole): Promise<UserRole> {
+    const user = await User.findOneBy({ id })
+    user.role = role
+    await user.save()
+    return role
+  }
 }

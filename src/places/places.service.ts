@@ -47,4 +47,9 @@ export class PlacesService {
     }).save()
     return id
   }
+
+  async delete(id: string): Promise<boolean> {
+    await Place.delete({ id })
+    return true
+  }
 }

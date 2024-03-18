@@ -59,7 +59,7 @@ export class UsersResolver {
 
   @Mutation(() => Boolean)
   deleteUser(@Args('id', { type: () => ID }) id: string) {
-    return
+    return true
   }
 
   @ResolveField(() => [Place])

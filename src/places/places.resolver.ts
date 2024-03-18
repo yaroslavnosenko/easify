@@ -1,4 +1,5 @@
 import { Me } from '@/auth/me.decorator'
+import { Public } from '@/auth/public.decorator'
 import { Roles } from '@/auth/roles.decorator'
 import { Location, LocationInput } from '@/places/dto/location.type'
 import { PlaceInput } from '@/places/dto/place.input'
@@ -26,12 +27,14 @@ export class PlacesResolver {
     return this.placesService.findAll()
   }
 
-  @Query(() => [Place])
+  @Query(() => [Place], { description: 'Public' })
+  @Public()
   placesByLocation(@Args('input') input: LocationInput): Promise<Place[]> {
     return this.placesService.findAllByLocation(input)
   }
 
-  @Query(() => Place, { nullable: true })
+  @Query(() => Place, { nullable: true, description: 'Public' })
+  @Public()
   place(@Args('id', { type: () => ID }) id: string): Promise<Place | null> {
     return this.placesService.findOne(id)
   }
@@ -68,8 +71,8 @@ export class PlacesResolver {
   }
 
   @Mutation(() => Boolean)
-  deletePlace(@Args('id', { type: () => ID }) id: string) {
-    return
+  deletePlace(@Args('id', { type: () => ID }) id: string): Promise<boolean> {
+    return this.placesService.delete(id)
   }
 
   @ResolveField(() => Location)
